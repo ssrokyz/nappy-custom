@@ -122,7 +122,7 @@ def adf_average(infiles,ffmt='POSCAR',dang=1.0,rcut=3.0,
             sys.exit()
         asys= NAPSystem(fname=infname,ffmt=ffmt)
         if i % 100 == 0:
-            print(' Currently processin file = ',infname)
+            print(' Currently processing file = ',infname)
         i+=1
         angd,df,n= adf(asys,dang,rcut,id0,id1,id2)
         aadf += df
