@@ -115,12 +115,15 @@ def adf_average(infiles,ffmt='POSCAR',dang=1.0,rcut=3.0,
     df= np.zeros(na,dtype=float)
     aadf= np.zeros(na,dtype=float)
     nsum= 0
+    i=0
     for infname in infiles:
         if not os.path.exists(infname):
             print("[Error] File, {0}, does not exist !!!".format(infname))
             sys.exit()
         asys= NAPSystem(fname=infname,ffmt=ffmt)
-        print(' File = ',infname)
+        if i % 100 == 0:
+            print(' Currently processin file = ',infname)
+        i+=1
         angd,df,n= adf(asys,dang,rcut,id0,id1,id2)
         aadf += df
         nsum += n
