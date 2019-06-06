@@ -1494,13 +1494,8 @@ def cartesian_to_scaled(hi,xc,yc,zc):
     to scaled position using inversed h-matrix.
     Inversed h-matrix has to be given.
     """
-    x = 0.0
-    y = 0.0
-    z = 0.0
-    x += hi[0,0]*xc +hi[0,1]*yc +hi[0,2]*zc
-    y += hi[1,0]*xc +hi[1,1]*yc +hi[1,2]*zc
-    z += hi[2,0]*xc +hi[2,1]*yc +hi[2,2]*zc
-    return x,y,z
+    xyz = np.dot(hi, [xc, yc, zc])
+    return xyz[0], xyz[1], xyz[2]
 
 
 def scaled_to_cartesian(h,xs,ys,zs):
