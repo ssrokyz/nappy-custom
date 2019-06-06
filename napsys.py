@@ -1774,12 +1774,7 @@ def unitvec_to_hi(a1,a2,a3):
     """
     Convert 3 unitvectors to inversed h-matrix via h-matrix.
     """
-    h = np.zeros((3,3),dtype=float)
-    for i in range(3):
-        h[0,i] = a1[i]
-        h[1,i] = a2[i]
-        h[2,i] = a3[i]
-    return np.linalg.inv(h)
+    return np.linalg.inv(np.transpose([a1,a2,a3]))
 
 
 def analyze(nsys):
