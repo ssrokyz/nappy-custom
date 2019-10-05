@@ -4,11 +4,11 @@
 
 import os
 
-import vasp
-import scheduler
-import clutil
-import espresso
-import mkcell
+from . import vasp
+from . import scheduler
+from . import clutil
+from . import espresso
+from . import mkcell
 
 _nappy_dir = '.nappy'
 

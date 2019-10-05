@@ -8,9 +8,9 @@ import copy
 import math
 
 import nappy
-import incar
-import poscar
-import potcar
+from . import incar
+from . import poscar
+from . import potcar
 
 import json
 
