@@ -132,7 +132,7 @@ def adf_average(infiles,ffmt='POSCAR',dang=1.0,rcut=3.0,
         aadf /= nsum
     return angd,aadf
 
-def adf_average_ase(infiles,dang=1.0,rcut=3.0,
+def adf_average_ase(infiles,image_slice,dang=1.0,rcut=3.0,
                 id0=0,id1=0,id2=0,no_average=False):
     na= int(180.0/dang) +1
     df= np.zeros(na,dtype=float)
@@ -141,7 +141,7 @@ def adf_average_ase(infiles,dang=1.0,rcut=3.0,
     i=0
     from ase.io import read
     for infname in infiles:
-        alist = read(infname, ':')
+        alist = read(infname, image_slice)
         if not isinstance(alist, list): alist = [alist]
         for atoms in alist:
             asys= NAPSystem.from_ase_atoms(atoms)
