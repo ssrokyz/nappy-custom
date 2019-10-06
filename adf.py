@@ -146,7 +146,7 @@ def adf_average_ase(infiles,image_slice,dang=1.0,rcut=3.0,
         for atoms in alist:
             asys= NAPSystem.from_ase_atoms(atoms)
             if i % 100 == 0:
-                print(' Currently processing "{}" file. Now we have calculated {} images.'.format(infname, i))
+                print(' Currently processing "{}" file. Now we have calculated {} angles.'.format(infname, i))
             i+=1
             angd,df,n= adf(asys,dang,rcut,id0,id1,id2)
             aadf += df
