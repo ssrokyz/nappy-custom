@@ -102,7 +102,7 @@ from gaussian_smear import gsmear
                 # anda[iang]= anda[iang] +adfa[iang]
     # return angd,anda,natm0
 
-def adf_atom(ia,dang,rcut,asys,spec1='all',spec3='all'):
+def adf_atom(ia,dang,rcut,asys,symbol1='a',symbol3='a'):
     """
     Compute number of atoms in the every range of angle [0:180].
     """
@@ -116,7 +116,7 @@ def adf_atom(ia,dang,rcut,asys,spec1='all',spec3='all'):
         ja= asys.lspr[ia,ji]
         if ja == ia:
             continue
-        if spec1 != 'all' and asys.atoms[ja].symbol != spec1:
+        if symbol1 != 'a' and asys.atoms[ja].symbol != symbol1:
             continue
         pj= asys.atoms[ja].pos
         pij= pj-pi
@@ -130,7 +130,7 @@ def adf_atom(ia,dang,rcut,asys,spec1='all',spec3='all'):
             ka= asys.lspr[ia,ki]
             if ka == ia or ka <= ja:
                 continue
-            if spec3 != 'all' and asys.atoms[ka].symbol != spec3:
+            if symbol3 != 'a' and asys.atoms[ka].symbol != symbol3:
                 continue
             pk= asys.atoms[ka].pos
             pik= pk-pi
@@ -150,7 +150,7 @@ def adf_atom(ia,dang,rcut,asys,spec1='all',spec3='all'):
             nda[int(deg/dang)] += 1
     return nda
 
-def adf(asys,dang,rcut,spec2='all',spec1='all',spec3='all'):
+def adf(asys,dang,rcut,symbol2='a',symbol1='a',symbol3='a'):
 
     natm0= asys.num_atoms()
 
@@ -168,9 +168,9 @@ def adf(asys,dang,rcut,spec2='all',spec1='all',spec3='all'):
     angd= np.array([ dang*ia for ia in range(na) ])
     nsum= 0
     for ia in range(natm0):
-        if spec2=='all' or asys.atoms[ia].symbol==spec2:
+        if symbol2=='a' or asys.atoms[ia].symbol==symbol2:
             nsum += 1
-            adfa= adf_atom(ia,dang,rcut,asys,spec1,spec3)
+            adfa= adf_atom(ia,dang,rcut,asys,symbol1,symbol3)
             for iang in range(na):
                 anda[iang]= anda[iang] +adfa[iang]
     return angd,anda,natm0
@@ -199,7 +199,7 @@ def adf(asys,dang,rcut,spec2='all',spec1='all',spec3='all'):
     # return angd,aadf
 
 def adf_average(infiles,image_slice,dang=1.0,rcut=3.0,
-                spec2='all',spec1='all',spec3='all',avg_bool=True):
+                symbol2='a',symbol1='a',symbol3='a',avg_bool=True):
     na= int(180.0/dang) +1
     df= np.zeros(na,dtype=float)
     aadf= np.zeros(na,dtype=float)
@@ -215,7 +215,7 @@ def adf_average(infiles,image_slice,dang=1.0,rcut=3.0,
             if i % 100 == 0:
                 print(' Currently processing "{}" file. Now we have calculated {} angles.'.format(infname, i))
             i+=1
-            angd,df,n= adf(asys,dang,rcut,spec2,spec1,spec3)
+            angd,df,n= adf(asys,dang,rcut,symbol2,symbol1,symbol3)
             aadf += df
             nsum += n
     #aadf /= len(infiles)
