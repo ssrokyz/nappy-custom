@@ -128,7 +128,9 @@ def adf_atom(ia,dang,rcut,asys,symbol1='a',symbol3='a'):
         rij= np.sqrt(rij2)
         for ki in range(asys.nlspr[ia]):
             ka= asys.lspr[ia,ki]
-            if ka == ia or ka <= ja:
+            if ka == ia:
+                continue
+            if ka >= ja and symbol1 == symbol3:
                 continue
             if symbol3 != 'a' and asys.atoms[ka].symbol != symbol3:
                 continue
@@ -150,7 +152,7 @@ def adf_atom(ia,dang,rcut,asys,symbol1='a',symbol3='a'):
             nda[int(deg/dang)] += 1
     return nda
 
-def adf(asys,dang,rcut,symbol2='a',symbol1='a',symbol3='a'):
+def adf(asys,dang,rcut,symbol1='a',symbol2='a',symbol3='a'):
 
     natm0= asys.num_atoms()
 
@@ -198,30 +200,22 @@ def adf(asys,dang,rcut,symbol2='a',symbol1='a',symbol3='a'):
         # aadf /= nsum
     # return angd,aadf
 
-def adf_average(infiles,image_slice,dang=1.0,rcut=3.0,
-                symbol2='a',symbol1='a',symbol3='a',avg_bool=True):
+def adf_gather(alist, dang=1.0, rcut=3.0, symbol1='a', symbol2='a', symbol3='a'):
     na= int(180.0/dang) +1
     df= np.zeros(na,dtype=float)
-    aadf= np.zeros(na,dtype=float)
+    aadf= np.zeros(na,dtype=float) # aadf stands for atomic angular distribution function?
     nsum= 0
     i=0
-    from ase.io import read
-    for infname in infiles:
-        alist = read(infname, image_slice)
-        if not isinstance(alist, list): alist = [alist]
-        if len(alist) == 0: raise ValueError('No an image provided.')
-        for atoms in alist:
-            asys= NAPSystem.from_ase_atoms(atoms)
-            if i % 100 == 0:
-                print(' Currently processing "{}" file. Now we have calculated {} angles.'.format(infname, i))
-            i+=1
-            angd,df,n= adf(asys,dang,rcut,symbol2,symbol1,symbol3)
-            aadf += df
-            nsum += n
+    print('Subprocess starting calculation.')
+    for atoms in alist:
+        asys= NAPSystem.from_ase_atoms(atoms)
+        i+=1
+        angd,df,n= adf(asys,dang,rcut,symbol1,symbol2,symbol3)
+        aadf += df
+        nsum += n
+    print('{} atoms have been calculated.'.format(nsum))
     #aadf /= len(infiles)
-    if avg_bool:
-        aadf /= nsum
-    return angd, aadf
+    return angd, aadf, nsum
 
 def plot_figures(angd,agr):
     import matplotlib.pyplot as plt
