@@ -26,7 +26,7 @@ from __future__ import print_function
 import os,sys
 import numpy as np
 from docopt import docopt
-from napsys import NAPSystem
+from .napsys import NAPSystem
 from gaussian_smear import gsmear
 
 # def adf_atom(ia,dang,rcut,asys,id1=0,id2=0):
