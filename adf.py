@@ -170,7 +170,7 @@ def adf(asys,dang,rcut,symbol1='a',symbol2='a',symbol3='a'):
     angd= np.array([ dang*ia for ia in range(na) ])
     nsum= 0
     for ia in range(natm0):
-        if symbol2=='a' or asys.atoms[ia].symbol==symbol2:
+        if symbol2=='a' or asys.atoms[ia].symbol in symbol2:
             nsum += 1
             adfa= adf_atom(ia,dang,rcut,asys,symbol1,symbol3)
             for iang in range(na):
