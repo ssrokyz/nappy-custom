@@ -116,7 +116,7 @@ def adf_atom(ia,dang,rcut,asys,symbol1='a',symbol3='a'):
         ja= asys.lspr[ia,ji]
         if ja == ia:
             continue
-        if symbol1 != 'a' and asys.atoms[ja].symbol != symbol1:
+        if symbol1 != 'a' and asys.atoms[ja].symbol not in symbol1:
             continue
         pj= asys.atoms[ja].pos
         pij= pj-pi
@@ -132,7 +132,7 @@ def adf_atom(ia,dang,rcut,asys,symbol1='a',symbol3='a'):
                 continue
             if ka >= ja and symbol1 == symbol3:
                 continue
-            if symbol3 != 'a' and asys.atoms[ka].symbol != symbol3:
+            if symbol3 != 'a' and asys.atoms[ka].symbol not in symbol3:
                 continue
             pk= asys.atoms[ka].pos
             pik= pk-pi
